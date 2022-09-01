@@ -12,7 +12,7 @@
 
 an open source project uses this data to provide the answer to the question: What microservices are part of my Istio service mesh and how are they connected?
 
-![kiali info](./images/kiali.jpg)
+![kiali info](./images/kiali.jpg "kiali")
 
 * Graph - show topplogy of service calling graph
 * Services
