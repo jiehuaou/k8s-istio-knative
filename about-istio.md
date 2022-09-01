@@ -10,7 +10,9 @@
 
 #  what is Kiali
 
-an open source project uses this data to provide the answer to the question: What microservices are part of my Istio service mesh and how are they connected?
+an open source project provide the answer to the question: 
+* What microservices are part of my Istio service mesh and 
+* how are they connected?
 
 ![kiali info](./images/kiali.jpg "kiali")
 
@@ -24,4 +26,16 @@ The metrics collected by Istio are scraped into **Prometheus (database)** and vi
 
 ![grafana info](./images/grafana.jpg "grafana")
 
+# what is Jaeger - Distributed Tracing System
+
+**Jaeger** is similar to **Zipkin** but has a different implementation. Supported by the Cloud Native Computing Foundation (CNCF) as an incubating project, Jaeger implements the OpenTracing specification to the last API, and its preferred deployment method is actually Kubernetes.
+
+## Jaeger address following things:
+
+* distributed transaction monitoring
+* performance and latency analysis
+* root cause analysis
+* service dependency analysis
+
+![jaeger info](./images/jaeger.jpg "jaeger")
 
