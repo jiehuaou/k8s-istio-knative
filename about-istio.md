@@ -18,3 +18,10 @@ an open source project uses this data to provide the answer to the question: Wha
 * Services
 * Istion Config - checking the configurations of Istio Components
 
+# Grafana – Metrics Visualization
+
+The metrics collected by Istio are scraped into **Prometheus (database)** and visualized using **Grafana**. 
+
+![grafana info](./images/grafana.jpg "grafana")
+
+
