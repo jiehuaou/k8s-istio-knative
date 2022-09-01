@@ -37,5 +37,8 @@ The metrics collected by Istio are scraped into **Prometheus (database)** and vi
 * root cause analysis
 * service dependency analysis
 
-![jaeger info](./images/jaeger.jpg "jaeger")
+![jaeger info](./images/jaeger.jpg "jaeger sample")
 
+With distributed tracing, we can collect Span s for each network hop, capture them in an overall Trace, and use them to debug issues in our call graph.
+
+![jaeger2 info](./images/jaeger2.jpg "jaeger logic")
