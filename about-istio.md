@@ -8,3 +8,13 @@
 * Secure Communication ( mTLS )
 
 
+#  what is Kiali
+
+an open source project uses this data to provide the answer to the question: What microservices are part of my Istio service mesh and how are they connected?
+
+![kiali info](./images/kiali.jpg)
+
+* Graph - show topplogy of service calling graph
+* Services
+* Istion Config - checking the configurations of Istio Components
+
