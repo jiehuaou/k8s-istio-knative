@@ -120,6 +120,18 @@ spec:
 
 A/B Testing is used when we have two versions of an application (usually those differ visually) that we are not 100% sure which will increase user interaction and so we try both versions at the same time and collect metrics.
 
+If there is no "**session affinity**", Some files are not found because they are named differently in the different versions of the app. Let’s verify that:
+
+```shell
+  $ curl --silent http://$EXTERNAL_IP/ | tr '"' '\n' | grep main
+  /static/css/main.c7071b22.css
+  /static/js/main.059f8e9c.js
+
+  $ curl --silent http://$EXTERNAL_IP/ | tr '"' '\n' | grep main
+  /static/css/main.f87cd8c9.css
+  /static/js/main.f7659dbb.js
+```
+
 We’ll achieve this using **Consistent Hash Loadbalancing**, which is the process that **forwards requests from the same client to the same backend instance**, using a predefined property, like an HTTP header.
 
 ![ab-test.jpg info](./images/ab-test.jpg "ab-test logic")
