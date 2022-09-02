@@ -115,3 +115,26 @@ spec:
         port:
           number: 80
 ```
+
+## A/B Testing (session affinity) – Destination Rules in Practice
+
+A/B Testing is used when we have two versions of an application (usually those differ visually) that we are not 100% sure which will increase user interaction and so we try both versions at the same time and collect metrics.
+
+We’ll achieve this using **Consistent Hash Loadbalancing**, which is the process that **forwards requests from the same client to the same backend instance**, using a predefined property, like an HTTP header.
+
+![ab-test.jpg info](./images/ab-test.jpg "ab-test logic")
+
+Using Destination Rules we can configure load balancing to have **session affinity** and ensure that the same user is responded by the same instance of the service. This is achievable with the following configuration:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sa-frontend
+spec:
+  host: sa-frontend
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpHeaderName: version   # 1
+```
