@@ -150,3 +150,14 @@ spec:
       consistentHash:
         httpHeaderName: version   # 1
 ```
+
+## Blue / Green Deployments - it is not A/B testing
+
+"Blue-green deployment is a technique that reduces downtime and risk by running two identical production environments called Blue and Green."- cloudfoundry. 
+
+Two environments, both production. One might have version 1.0.0 (green) while blue has 1.0.1.
+
+Many times traffic is slowly increased to blue while watching for errors or undesirable changes in user behavior.
+
+Once all the traffic is moved off from the green (1.0.0) version the environment is shut down. At that point "blue" becomes "green" and the cycle starts over.
+
