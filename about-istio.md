@@ -120,7 +120,7 @@ spec:
 
 * In simple terms, A/B testing is a way to compare two versions of something to determine which performs better .
 * In an A/B test, some percentage of your users automatically receives “version A” and other receives “version B.
-* It is a controlled experiment process.
+* It is a controlled experiment process. To run the experiment user groups are split into 2 groups.
 
 If there is no "**session affinity**", Some files are not found because they are named differently in the different versions of the app. Let’s verify that:
 
