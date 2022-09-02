@@ -118,7 +118,9 @@ spec:
 
 ## A/B Testing (session affinity) – Destination Rules in Practice
 
-A/B Testing is used when we have two versions of an application (usually those differ visually) that we are not 100% sure which will increase user interaction and so we try both versions at the same time and collect metrics.
+* In simple terms, A/B testing is a way to compare two versions of something to determine which performs better .
+* In an A/B test, some percentage of your users automatically receives “version A” and other receives “version B.
+* It is a controlled experiment process.
 
 If there is no "**session affinity**", Some files are not found because they are named differently in the different versions of the app. Let’s verify that:
 
@@ -150,6 +152,13 @@ spec:
       consistentHash:
         httpHeaderName: version   # 1
 ```
+
+## Canary Testing
+
+* Canary Testing is a way to reduce risk and validate new software by releasing software to a small percentage of users. With canary testing, you can deliver new features to certain groups of users at a time.
+* Since the new feature is only distributed to a small number of users, its impact is relatively small and changes can be reversed quickly should the new code prove to be buggy.
+* It is a technique to reduce the risk of introducing a new software version in production by slowly rolling out the change to a small subset of users before rolling it out to the entire infrastructure and making it available to everybody.
+* While canary releases are a good way to detect problems and regressions, A/B testing is a way to test a hypothesis using variant implementations.
 
 ## Blue / Green Deployments - it is not A/B testing
 
