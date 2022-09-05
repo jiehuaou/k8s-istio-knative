@@ -235,7 +235,7 @@ spec:
 * **Maximum Pending Requests**: The maximum number of pending requests to a backend. Any excess pending requests will be **denied**.
 * **Maximum Requests**: The maximum number of requests in a cluster at any given time. You can modify this number by changing the maxRequestsPerConnection field.
 
-> **http2MaxRequests**
+> ###http2MaxRequests
 >
 > Another parameter that we mentioned at the start is http2MaxRequests. Despite the name, this parameter is not HTTP2 specific. It dictates the **number of maximum outstanding requests to the destination service**.
 >
@@ -243,6 +243,6 @@ spec:
 >
 > For HTTP2, http2MaxRequests is very important since, with HTTP2, we can send multiple concurrent requests on a single TCP connection. So to control the traffic flow, we need to put a limit on max outstanding requests rather than max TCP connections.
 >
-> use tcp.maxConnections with http.http1MaxPendingRequests or just http2MaxRequests, The results will almost be the same (I said almost, because with http2MaxRequests we won’t have to deal with pending requests).
+>> use **tcp.maxConnections with http.http1MaxPendingRequests** or just **http2MaxRequests**, The results will almost be the same (I said almost, because with http2MaxRequests we won’t have to deal with pending requests).
 >
 
