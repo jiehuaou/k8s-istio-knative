@@ -263,7 +263,7 @@ spec:
         http1MaxPendingRequests: 1
 ```
 
-![Scenario#3 info](./images/Scenario#3.jpg "Scenario#3 logic")
+![scenario-3 info](./images/scenario-3.jpg "scenario#3 logic")
 
 The system allows only 5 concurrent requests from all three pods combined.
 
