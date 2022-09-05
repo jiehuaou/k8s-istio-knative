@@ -265,7 +265,11 @@ spec:
 
 ![scenario-3 info](./images/scenario-3.jpg "scenario-3 logic")
 
-The system allows only 5 concurrent requests from all three pods combined.
+So to summarise — the client proxies are sending requests as per their connection limit (5 each) — either queuing or throttling (with UO response flag) excess requests.
+
+All three client proxies combined can send a maximum of 15 concurrent requests at the start of a batch. However, only 5 of these succeed because the destination service proxy is also applying throttling using the same configuration (max 5 connections).
+
+The destination service proxy will accept only 5 requests and throttle the rest, which appear with URX response flag in client proxy logs.
 
 
 
