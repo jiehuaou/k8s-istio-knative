@@ -235,7 +235,7 @@ spec:
 * **Maximum Pending Requests**: The maximum number of pending requests to a backend. Any excess pending requests will be **denied**.
 * **Maximum Requests**: The maximum number of requests in a cluster at any given time. You can modify this number by changing the maxRequestsPerConnection field.
 
-> ###http2MaxRequests
+> ### http2MaxRequests
 >
 > Another parameter that we mentioned at the start is http2MaxRequests. Despite the name, this parameter is not HTTP2 specific. It dictates the **number of maximum outstanding requests to the destination service**.
 >
