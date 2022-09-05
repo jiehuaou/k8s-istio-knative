@@ -116,7 +116,7 @@ spec:
           number: 80
 ```
 
-## A/B Testing (session affinity) – Destination Rules in Practice
+## A/B Testing – Destination Rules in Practice
 
 * In simple terms, A/B testing is a way to compare two versions of something to determine which performs better .
 * In an A/B test, some percentage of your users automatically receives “version A” and other receives “version B.
@@ -170,3 +170,35 @@ Many times traffic is slowly increased to blue while watching for errors or unde
 
 Once all the traffic is moved off from the green (1.0.0) version the environment is shut down. At that point "blue" becomes "green" and the cycle starts over.
 
+## Timeouts and Retries with Istio
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: sa-logic
+spec:
+  hosts:
+    - sa-logic
+  http:
+  - route: 
+    - destination: 
+        host: sa-logic
+        subset: v1
+      weight: 50
+    - destination: 
+        host: sa-logic
+        subset: v2
+      weight: 50
+    timeout: 8s           # 1
+    retries:
+      attempts: 3         # 2
+      perTryTimeout: 3s   # 3
+```
+
+1. The request has a timeout of 8 seconds.
+2. We attempt 3 times
+3. An attempt is marked as failed if it takes longer than 3 seconds.
+
+
+## CircuitBreakers with Istio
