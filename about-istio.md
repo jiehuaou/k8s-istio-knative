@@ -231,7 +231,7 @@ spec:
       baseEjectionTime: 15m
 ```
 
-* **Maximum Connections**: The maximum number of connections to a backend. Any excess connection will be **pending in a queue**.
+* **Maximum Connections**: The maximum number of connections to a backend (service level). Any excess connection will be **pending in a queue**.
 * **Maximum Pending Requests**: The maximum number of pending requests to a backend. Any excess pending requests will be **denied**.
 * **Maximum Requests**: The maximum number of requests in a cluster at any given time. You can modify this number by changing the maxRequestsPerConnection field.
 
