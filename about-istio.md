@@ -200,5 +200,50 @@ spec:
 2. We attempt 3 times
 3. An attempt is marked as failed if it takes longer than 3 seconds.
 
-
 ## CircuitBreakers with Istio
+
+![circuit-breaker info](./images/circuit-breaker.jpg "circuit-breaker logic")
+
+### Hystrix vs Istio
+
+* You can configure and use advanced resiliency features from Istio without changing the application code. Hystrix implementation requires changing each of your services to include the Hystrix libraries.
+* when all instances in a load balancing pool have failed, Istio Envoy will return HTTP 503. Application need to **implement any fallback logic** that is needed to handle the HTTP 503 error code from an upstream service. On the other hand, **Hystrix does provide a fallback implementation** which is very helpful. Hystrix fallback can be returning an error message, single default value, from cache or even call another service.
+* Envoy is completely transparent to the application. The Hystrix library has to be embedded in each of the service calls.
+* Istio can be used as a circuit breaker in a **multi-language** landscape, however, Hystrix is focused primarily on **Java** applications.
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews-cb-policy
+spec:
+  host: reviews.prod.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http2MaxRequests: 1000
+        maxRequestsPerConnection: 10
+    outlierDetection:
+      consecutive5xxErrors: 7
+      interval: 5m
+      baseEjectionTime: 15m
+```
+
+* **Maximum Connections**: The maximum number of connections to a backend. Any excess connection will be **pending in a queue**.
+* **Maximum Pending Requests**: The maximum number of pending requests to a backend. Any excess pending requests will be **denied**.
+* **Maximum Requests**: The maximum number of requests in a cluster at any given time. You can modify this number by changing the maxRequestsPerConnection field.
+
+> http2MaxRequests
+>
+> Another parameter that we mentioned at the start is http2MaxRequests . Despite the name, this parameter is not HTTP2 specific. It dictates the number of maximum outstanding requests to the destination service.
+>
+> In the case of HTTP1, it’s roughly equivalent to tcp.maxConnections as in HTTP1, there can only be 1 active request on a TCP connection. Although the TCP connections can be reused using tcp.tcpKeepalive and http.maxRequestsPerConnection parameters, the previous request has to complete before the next request can be sent.
+>
+> For HTTP2, http2MaxRequests is very important since, with HTTP2, we can send multiple concurrent requests on a single TCP connection. So to control the traffic flow, we need to put a limit on max outstanding requests rather than max TCP connections.
+>
+> Since I have used HTTP1 for the tests, we can either use tcp.maxConnections with http.http1MaxPendingRequestsor justhttp2MaxRequests . The results will almost be the same (I said almost, because with http2MaxRequests we won’t have to deal with pending requests).
+>
+> I’d recommend that for HTTP requests (HTTP1 or HTTP2), we use http2MaxRequests , but since I started the first test with tcp.maxConnections , I’ll continue using it for the rest of the tests for the sake of consistency.
+
