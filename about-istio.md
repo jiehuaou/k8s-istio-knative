@@ -246,3 +246,26 @@ spec:
 >> use **tcp.maxConnections with http.http1MaxPendingRequests** or just **http2MaxRequests**, The results will almost be the same (I said almost, because with http2MaxRequests we won’t have to deal with pending requests).
 >
 
+### Scenario #3
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: pyserver-service
+spec:
+  host: pyserver-service
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 5
+      http:
+        http1MaxPendingRequests: 1
+```
+
+![Scenario#3 info](./images/Scenario#3.jpg "Scenario#3 logic")
+
+The system allows only 5 concurrent requests from all three pods combined.
+
+
+
