@@ -237,13 +237,12 @@ spec:
 
 > http2MaxRequests
 >
-> Another parameter that we mentioned at the start is http2MaxRequests . Despite the name, this parameter is not HTTP2 specific. It dictates the number of maximum outstanding requests to the destination service.
+> Another parameter that we mentioned at the start is http2MaxRequests. Despite the name, this parameter is not HTTP2 specific. It dictates the **number of maximum outstanding requests to the destination service**.
 >
 > In the case of HTTP1, it’s roughly equivalent to tcp.maxConnections as in HTTP1, there can only be 1 active request on a TCP connection. Although the TCP connections can be reused using tcp.tcpKeepalive and http.maxRequestsPerConnection parameters, the previous request has to complete before the next request can be sent.
 >
 > For HTTP2, http2MaxRequests is very important since, with HTTP2, we can send multiple concurrent requests on a single TCP connection. So to control the traffic flow, we need to put a limit on max outstanding requests rather than max TCP connections.
 >
-> Since I have used HTTP1 for the tests, we can either use tcp.maxConnections with http.http1MaxPendingRequestsor justhttp2MaxRequests . The results will almost be the same (I said almost, because with http2MaxRequests we won’t have to deal with pending requests).
+> use tcp.maxConnections with http.http1MaxPendingRequests or just http2MaxRequests, The results will almost be the same (I said almost, because with http2MaxRequests we won’t have to deal with pending requests).
 >
-> I’d recommend that for HTTP requests (HTTP1 or HTTP2), we use http2MaxRequests , but since I started the first test with tcp.maxConnections , I’ll continue using it for the rest of the tests for the sake of consistency.
 
