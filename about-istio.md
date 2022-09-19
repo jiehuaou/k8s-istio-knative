@@ -122,6 +122,8 @@ spec:
 
 ## A/B Testing – Destination Rules in Practice
 
+ In an A/B testing scenario, you'll usually use HTTP headers or cookies to target a certain segment of your users. 
+
 * In simple terms, A/B testing is a way to compare two versions of something to determine which performs better .
 * In an A/B test, some percentage of your users automatically receives “version A” and other receives “version B.
 * It is a controlled experiment process. To run the experiment user groups are split into 2 groups.
@@ -163,6 +165,67 @@ spec:
 * Since the new feature is only distributed to a small number of users, its impact is relatively small and changes can be reversed quickly should the new code prove to be buggy.
 * It is a technique to reduce the risk of introducing a new software version in production by slowly rolling out the change to a small subset of users before rolling it out to the entire infrastructure and making it available to everybody.
 * While canary releases are a good way to detect problems and regressions, A/B testing is a way to test a hypothesis using variant implementations.
+
+First the Deployments need some extra labels.
+```yaml
+…
+kind: Deployment
+metadata:
+  name: payment-fix
+  labels:
+    service: payment
+    stage: test
+
+…
+kind: Deployment
+metadata:
+  name: payment
+  labels:
+    service: payment
+    stage: prod
+```
+
+The extra label “stage” is then used to match in an Istio Destination Rule which also references the payment Service, this creates the subsets.
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: canary-test
+spec:
+  host: payment.robot-shop.svc.cluster.local
+  subsets:
+  - name: production
+    labels:
+      stage: prod
+  - name: canary
+    labels:
+      stage: test
+```
+
+Finally the Istio Virtual Service uses the Destination Rule subsets and provides fine control over the distribution of requests.
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: robotshop-canary
+spec:
+  hosts:
+  - payment.robot-shop.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: payment.robot-shop.svc.cluster.local
+        subset: production
+      weight: 99
+    - destination:
+        host: payment.robot-shop.svc.cluster.local
+        subset: canary
+      weight: 1
+```
+
+Using the “weight” field, the requests are distributed across the subsets defined in the Destination Rule. The example above routes 1% to the canary (stage: test) Deployment subset.
+
+
 
 ## Blue / Green Deployments - it is not A/B testing
 
