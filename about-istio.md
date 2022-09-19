@@ -122,7 +122,7 @@ spec:
 
 ## A/B Testing – Destination Rules in Practice
 
- In an A/B testing scenario, you'll usually use HTTP headers or cookies to target a certain segment of your users. 
+ In an A/B testing scenario, you'll usually use HTTP headers or cookies to target a certain segment of your users, some percentage of your users automatically receives “version A” and other receives “version B.
 
 * In simple terms, A/B testing is a way to compare two versions of something to determine which performs better .
 * In an A/B test, some percentage of your users automatically receives “version A” and other receives “version B.
